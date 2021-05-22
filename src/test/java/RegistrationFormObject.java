@@ -73,6 +73,7 @@ public class RegistrationFormObject {
 
         int day = Integer.parseInt(dateOfBirth.split("\\.")[0]);
         String dayXpath = RegistrationFormObject.getDaySelectXpathWithDayValue(day);
+
         $(byXpath(dayXpath)).click();
     }
 
@@ -86,7 +87,6 @@ public class RegistrationFormObject {
         for (String subject: subjects) {
             RegistrationFormObject.addSubject(subject);
         }
-
     }
     
     public static void checkHobbyCheckbox(Hobby hobby){
@@ -117,7 +117,6 @@ public class RegistrationFormObject {
         $(byXpath(stateXpath)).click();
         String curStateXpath = getStateXpathByName(stateName);
         $(byXpath(curStateXpath)).click();
-
     }
 
     public static void selectCity(String cityName){

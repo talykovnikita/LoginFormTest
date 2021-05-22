@@ -70,19 +70,10 @@ public  class ResultTableObject {
         }
     }
 
-
-
-
-
-
-
-
-
     private static void isCorrectHobbiesPresent(List<Hobby> hobbies){
         for (Hobby hobby:hobbies){
             $(byXpath(hobbiesXpath)).shouldHave(Condition.text(hobby.name()));
         }
-
     }
 
     private static void isCorrectPicturePresent(String path){

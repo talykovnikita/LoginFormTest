@@ -26,7 +26,7 @@ public class RegistrationFormTests {
         );
 
         registrateStudent(maleStudent);
-        resultTableObject.verifyInputedDataForStudent(maleStudent);
+        ResultTableObject.verifyInputedDataForStudent(maleStudent);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class RegistrationFormTests {
                 "Panipat"
         );
         registrateStudent(maleStudent);
-        resultTableObject.verifyInputedDataForStudent(maleStudent);
+        ResultTableObject.verifyInputedDataForStudent(maleStudent);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class RegistrationFormTests {
         );
 
         registrateStudent(student);
-        resultTableObject.verifyInputedDataForStudent(student);
+        ResultTableObject.verifyInputedDataForStudent(student);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class RegistrationFormTests {
         );
 
         registrateStudent(student);
-        resultTableObject.verifyInputedDataForStudent(student);
+        ResultTableObject.verifyInputedDataForStudent(student);
     }
 
     private void registrateStudent(Student student){

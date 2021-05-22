@@ -8,7 +8,7 @@ import java.util.Locale;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 
-public  class resultTableObject {
+public  class ResultTableObject {
     private static String nameXpath = "//tbody//td[text()='Student Name']//..//td[2]";
     private static String emailXpath = "//tbody//td[text()='Student Email']//..//td[2]";
     private static String genderXpath = "//tbody//td[text()='Gender']//..//td[2]";

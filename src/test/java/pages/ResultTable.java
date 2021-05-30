@@ -14,6 +14,7 @@ import student.Student;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class ResultTable {
+    private static String headerXpath = "//*[@class='modal-title h4']";
     private static String nameXpath = "//tbody//td[text()='Student Name']//..//td[2]";
     private static String emailXpath = "//tbody//td[text()='Student Email']//..//td[2]";
     private static String genderXpath = "//tbody//td[text()='Gender']//..//td[2]";
@@ -26,6 +27,7 @@ public class ResultTable {
     private static String cityAndStateXpath = "//tbody//td[text()='State and City']//..//td[2]";
 
     public static void verifyInputDataForStudent(Student student) {
+        isResultTableOpened();
         isCorrectStudentNamePresent(student.firstName + ' ' + student.lastName);
         isCorrectStudentEmailPresent(student.email);
         isCorrectGenderPresent(student.gender);
@@ -36,6 +38,10 @@ public class ResultTable {
         isCorrectPicturePresent(student.pathToLogo);
         isCorrectAddressPresent(student.address);
         isCorrectCityAndStatePresent(student.city, student.state);
+    }
+
+    private static void isResultTableOpened(){
+        $x(headerXpath).shouldHave(Condition.text("Thanks for submitting the form"));
     }
 
     private static void isCorrectStudentNamePresent(String name) {

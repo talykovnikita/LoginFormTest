@@ -1,13 +1,22 @@
+package pages;
+
 import java.io.File;
 import java.util.List;
+import com.codeborne.selenide.Condition;
+import hobby.Hobby;
+import gender.Gender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.Selectors.byXpath;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
-public class RegistrationFormObject {
+public class RegistrationPage {
+
+    private static Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
 
     private static String url = "https://demoqa.com/automation-practice-form";
+    private static String formXpath = "//*[@class='practice-form-wrapper']";
     private static String firstNameXpath = "//*[@id='firstName']";
     private static String lastNameXpath = "//*[@id='lastName']";
     private static String emailXpath = "//*[@id='userEmail']";
@@ -34,68 +43,73 @@ public class RegistrationFormObject {
 
     public static void openPageWithForm(){
         open(url);
+        $x(formXpath).shouldHave(Condition.text("Student Registration Form"));
     }
 
     public static void enterFirstName(String firstName){
-        $(byXpath(RegistrationFormObject.firstNameXpath)).setValue(firstName);
+        $x(firstNameXpath).setValue(firstName);
     }
 
     public static void enterLastName(String lastName){
-        $(byXpath(RegistrationFormObject.lastNameXpath)).setValue(lastName);
+        $x(lastNameXpath).setValue(lastName);
     }
 
     public static void enterEmail(String email){
-        $(byXpath(RegistrationFormObject.emailXpath)).setValue(email);
+        $x(emailXpath).setValue(email);
     }
 
     public static void setGender(Gender gender){
         if (gender == Gender.Male) {
-            $(byXpath(RegistrationFormObject.maleGenderXpath)).click();
+            $x(maleGenderXpath).click();
         } else if (gender == Gender.Female) {
-            $(byXpath(RegistrationFormObject.femaleGenderXpath)).click();
+            $x(femaleGenderXpath).click();
+        } else if (gender == Gender.Other){
+            $x(otherGenderXpath).click();
         } else {
-            $(byXpath(RegistrationFormObject.otherGenderXpath)).click();
+            logger.error("Unknown gender was received: " + gender.name());
         }
     }
 
     public static void enterPhoneNumber(String phoneNumber){
-        $(byXpath(RegistrationFormObject.phoneNumberXpath)).setValue(phoneNumber);
+        $x(phoneNumberXpath).setValue(phoneNumber);
     }
 
-    public static void setDateOfBirt(String dateOfBirth){
-        $(byXpath(dateOfBirtTextbox)).click();
+    public static void setDateOfBirth(String dateOfBirth){
+        $x(dateOfBirtTextbox).click();
 
         int year = Integer.parseInt(dateOfBirth.split("\\.")[2]);
-        $(byXpath(RegistrationFormObject.yearSelectXpath)).selectOptionByValue(String.valueOf(year));
+        $x(yearSelectXpath).selectOptionByValue(String.valueOf(year));
 
         int month = Integer.parseInt(dateOfBirth.split("\\.")[1]) - 1;
-        $(byXpath(RegistrationFormObject.monthSelectXpath)).selectOptionByValue(String.valueOf(month));
+        $x(monthSelectXpath).selectOptionByValue(String.valueOf(month));
 
         int day = Integer.parseInt(dateOfBirth.split("\\.")[0]);
-        String dayXpath = RegistrationFormObject.getDaySelectXpathWithDayValue(day);
+        String dayXpath = getDaySelectXpathWithDayValue(day);
 
-        $(byXpath(dayXpath)).click();
+        $x(dayXpath).click();
     }
 
     public static void addSubject(String subject){
-        $(byXpath(RegistrationFormObject.subjectsTextboxXpath)).setValue(subject.substring(0,3));
+        $x(subjectsTextboxXpath).setValue(subject.substring(0,3));
         String computerScienceXpath = getSubjectSelectXpathBySubjectName(subject);
-        $(byXpath(computerScienceXpath)).click();
+        $x(computerScienceXpath).click();
     }
 
     public static void addSubjects(List<String> subjects) {
         for (String subject: subjects) {
-            RegistrationFormObject.addSubject(subject);
+            RegistrationPage.addSubject(subject);
         }
     }
     
     public static void checkHobbyCheckbox(Hobby hobby){
         if (hobby == Hobby.Sports){
-            checkSportsCheckbox();
+            checkSportCheckbox();
         }else if (hobby == Hobby.Music){
             checkMusicCheckbox();
-        } else {
+        } else if (hobby == Hobby.Reading) {
             checkReadingCheckbox();
+        } else {
+            logger.error("Unknown hobby was received: " + hobby.name());
         }
     }
 
@@ -106,39 +120,39 @@ public class RegistrationFormObject {
     }
 
     public static void enterCurrentAddress(String address){
-        $(byXpath(currentAddressTextarea)).setValue(address);
+        $x(currentAddressTextarea).setValue(address);
     }
 
     public static void attachFileToForm(String path){
-        $(byXpath(uploadLogoXpath)).uploadFile(new File(path));
+        $x(uploadLogoXpath).uploadFile(new File(path));
     }
 
     public static void selectState(String stateName){
-        $(byXpath(stateXpath)).click();
+        $x(stateXpath).click();
         String curStateXpath = getStateXpathByName(stateName);
-        $(byXpath(curStateXpath)).click();
+        $x(curStateXpath).click();
     }
 
     public static void selectCity(String cityName){
-        $(byXpath(cityXpath)).click();
+        $x(cityXpath).click();
         String curCityXpath = getCityXpathByName(cityName);
-        $(byXpath(curCityXpath)).click();
+        $x(curCityXpath).click();
     }
 
     public static void clickSubmitButton(){
-        $(byXpath(submitButtonXpath)).click();
+        $x(submitButtonXpath).click();
     }
 
-    private static void checkSportsCheckbox(){
-        $(byXpath(sportsCheckboxXpath)).click();
+    private static void checkSportCheckbox(){
+        $x(sportsCheckboxXpath).click();
     }
 
     private static void checkMusicCheckbox(){
-        $(byXpath(musicCheckboxXpath)).click();
+        $x(musicCheckboxXpath).click();
     }
 
     private static void checkReadingCheckbox(){
-        $(byXpath(readingCheckboxXpath)).click();
+        $x(readingCheckboxXpath).click();
     }
 
     private static String getDaySelectXpathWithDayValue(int day){

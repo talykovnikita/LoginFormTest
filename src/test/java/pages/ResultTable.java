@@ -1,14 +1,19 @@
+package pages;
+
 import com.codeborne.selenide.Condition;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import hobby.Hobby;
+import gender.Gender;
+import student.Student;
 
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 
-public  class ResultTableObject {
+public  class ResultTable {
     private static String nameXpath = "//tbody//td[text()='Student Name']//..//td[2]";
     private static String emailXpath = "//tbody//td[text()='Student Email']//..//td[2]";
     private static String genderXpath = "//tbody//td[text()='Gender']//..//td[2]";
@@ -20,7 +25,7 @@ public  class ResultTableObject {
     private static String addressXpath = "//tbody//td[text()='Address']//..//td[2]";
     private static String cityAndStateXpath = "//tbody//td[text()='State and City']//..//td[2]";
 
-    public static void verifyInputedDataForStudent(Student student){
+    public static void verifyInputDataForStudent(Student student){
         isCorrectStudentNamePresent(student.firstName + ' ' + student.lastName);
         isCorrectStudentEmailPresent(student.email);
         isCorrectGenderPresent(student.gender);
@@ -50,9 +55,7 @@ public  class ResultTableObject {
     }
 
     private static void isCorrectDateOfBirthPresent(String dateOfBirth){
-
         String convertedDate = convertDateToOutputFormat(dateOfBirth);
-
         $(byXpath(dateOfBirthXpath)).shouldHave(Condition.text(convertedDate));
     }
 

@@ -89,14 +89,10 @@ public class RegistrationPage {
             subjectsAutoCompleteMenu.$(byText(subject)).click();
         }
     }
-    
-    public static void checkHobbyCheckbox(Hobby hobby){
-        hobbiesCheckboxes.get(hobby).click();
-    }
 
     public static void checkHobbiesCheckboxes(List<Hobby> hobbies){
         for (Hobby hobby:hobbies) {
-            checkHobbyCheckbox(hobby);
+            hobbiesCheckboxes.get(hobby).click();;
         }
     }
 

@@ -3,6 +3,8 @@ package student;
 import gender.Gender;
 import hobby.Hobby;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Student {
@@ -11,7 +13,7 @@ public class Student {
     public String email;
     public Gender gender;
     public String phoneNumber;
-    public String dateOfBirth; //dd.mm.yyyy
+    public LocalDate dateOfBirth;
     public List<String> subjects;
     public List<Hobby> hobbies;
     public String address;
@@ -19,8 +21,9 @@ public class Student {
     public String state;
     public String city;
 
-    public Student (String firstName, String lastName, String email, Gender gender, String phoneNumber, String dateOfBirth,
-             List<String> subjects, List<Hobby> hobbies, String address, String pathToLogo, String state, String city){
+    public Student (String firstName, String lastName, String email, Gender gender, String phoneNumber,
+                    LocalDate dateOfBirth, List<String> subjects, List<Hobby> hobbies, String address,
+                    String pathToLogo, String state, String city){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

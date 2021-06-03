@@ -1,115 +1,97 @@
 package pages;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
-import com.codeborne.selenide.Condition;
+
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import hobby.Hobby;
 import gender.Gender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import student.Student;
 
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selectors.byText;
 
 public class RegistrationPage {
-
-    private static Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
-
-    private static String url = "https://demoqa.com/automation-practice-form";
-    private static String formXpath = "//*[@class='practice-form-wrapper']";
-    private static String firstNameXpath = "//*[@id='firstName']";
-    private static String lastNameXpath = "//*[@id='lastName']";
-    private static String emailXpath = "//*[@id='userEmail']";
-    private static String maleGenderXpath = "//*[text()='Male']";
-    private static String femaleGenderXpath = "//*[text()='Female']";
-    private static String otherGenderXpath = "//*[text()='Other']";
-    private static String phoneNumberXpath = "//*[@id='userNumber']";
-    private static String dateOfBirtTextbox = "//*[@id='dateOfBirthInput']";
-    private static String yearSelectXpath = "//select[@class='react-datepicker__year-select']";
-    private static String monthSelectXpath = "//select[@class='react-datepicker__month-select']";
-    private static String daySelectXpath = "//*[contains(@class, 'react-datepicker__day') and text()={DAY_VALUE}]";
-    private static String subjectsTextboxXpath = "//*[@id='subjectsInput']";
-    private static String subjectSelectXpath = "//*[contains(@class, 'subjects-auto-complete__option') and text()='{SUBJECT_VALUE}']";
-    private static String sportsCheckboxXpath = "//*[@class='custom-control-label' and text()='Sports']";
-    private static String musicCheckboxXpath = "//*[@class='custom-control-label' and text()='Music']";
-    private static String readingCheckboxXpath = "//*[@class='custom-control-label' and text()='Reading']";
-    private static String currentAddressTextarea = "//*[@id='currentAddress']";
-    private static String uploadLogoXpath = "//*[@id='uploadPicture']";
-    private static String stateXpath = "//*[@id='state']";
-    private static String stateItemXpath = "//*[text()='{STATE_VALUE}']";
-    private static String cityXpath = "//*[@id='city']";
-    private static String cityItemXpath = "//*[text()='{CITY_VALUE}']";
-    private static String submitButtonXpath = "//*[@id='submit']";
+    private static final SelenideElement firstNameInput = $("#firstName");
+    private static final SelenideElement lastNameInput = $("#lastName");
+    private static final SelenideElement emailInput = $("#userEmail");
+    private static final SelenideElement maleGenderCheckbox = $$(".custom-control-label").findBy(text("Male"));
+    private static final SelenideElement femaleGenderCheckbox = $$(".custom-control-label").findBy(text("Female"));
+    private static final SelenideElement otherGenderCheckbox = $$(".custom-control-label").findBy(text("Other"));
+    private static final HashMap<Gender, SelenideElement> genderCheckboxes = new HashMap<Gender, SelenideElement>() {{
+        put(Gender.Male, maleGenderCheckbox);
+        put(Gender.Female, femaleGenderCheckbox);
+        put(Gender.Other, otherGenderCheckbox);
+    }};
+    private static final SelenideElement phoneInput = $("#userNumber");
+    private static final SelenideElement dateOfBirtInput = $("#dateOfBirthInput");
+    private static final SelenideElement yearSelector = $(".react-datepicker__year-select");
+    private static final SelenideElement monthSelector = $(".react-datepicker__month-select");
+    private static final ElementsCollection daysInMonth = $$(".react-datepicker__day");
+    private static final SelenideElement subjectsInput = $("#subjectsInput");
+    private static final SelenideElement subjectsAutoCompleteMenu = $(".subjects-auto-complete__menu");
+    private static final SelenideElement sportsCheckbox = $$(".custom-control-label").findBy(text("Sports"));
+    private static final SelenideElement musicCheckbox = $$(".custom-control-label").findBy(text("Music"));
+    private static final SelenideElement readingCheckbox = $$(".custom-control-label").findBy(text("Reading"));
+    private static final HashMap<Hobby, SelenideElement> hobbiesCheckboxes = new HashMap<Hobby, SelenideElement>() {{
+        put(Hobby.Sports, sportsCheckbox);
+        put(Hobby.Music, musicCheckbox);
+        put(Hobby.Reading, readingCheckbox);
+    }};
+    private static final SelenideElement addressTextarea = $("#currentAddress");
+    private static final SelenideElement uploadInput = $("#uploadPicture");
+    private static final SelenideElement stateInput = $("#state");
+    private static final SelenideElement stateAutoCompleteMenu = $(".css-26l3qy-menu");
+    private static final SelenideElement cityInput = $("#city");
+    private static final SelenideElement cityAutoCompleteMenu = $(".css-26l3qy-menu");
+    private static final SelenideElement submitButton = $("#submit");
 
     public static void openPageWithForm(){
-        open(url);
-        $x(formXpath).shouldHave(Condition.text("Student Registration Form"));
+        open(Configuration.baseUrl + "/automation-practice-form");
     }
 
     public static void enterFirstName(String firstName){
-        $x(firstNameXpath).setValue(firstName);
+        firstNameInput.setValue(firstName);
     }
 
     public static void enterLastName(String lastName){
-        $x(lastNameXpath).setValue(lastName);
+        lastNameInput.setValue(lastName);
     }
 
     public static void enterEmail(String email){
-        $x(emailXpath).setValue(email);
+        emailInput.setValue(email);
     }
 
     public static void setGender(Gender gender){
-        if (gender == Gender.Male) {
-            $x(maleGenderXpath).click();
-        } else if (gender == Gender.Female) {
-            $x(femaleGenderXpath).click();
-        } else if (gender == Gender.Other){
-            $x(otherGenderXpath).click();
-        } else {
-            logger.error("Unknown gender was received: " + gender.name());
-        }
+        genderCheckboxes.get(gender).click();
     }
 
     public static void enterPhoneNumber(String phoneNumber){
-        $x(phoneNumberXpath).setValue(phoneNumber);
+        phoneInput.setValue(phoneNumber);
     }
 
-    public static void setDateOfBirth(String dateOfBirth){
-        $x(dateOfBirtTextbox).click();
-
-        int year = Integer.parseInt(dateOfBirth.split("\\.")[2]);
-        $x(yearSelectXpath).selectOptionByValue(String.valueOf(year));
-
-        int month = Integer.parseInt(dateOfBirth.split("\\.")[1]) - 1;
-        $x(monthSelectXpath).selectOptionByValue(String.valueOf(month));
-
-        int day = Integer.parseInt(dateOfBirth.split("\\.")[0]);
-        String dayXpath = getDaySelectXpathWithDayValue(day);
-
-        $x(dayXpath).click();
-    }
-
-    public static void addSubject(String subject){
-        $x(subjectsTextboxXpath).setValue(subject.substring(0,3));
-        String computerScienceXpath = getSubjectSelectXpathBySubjectName(subject);
-        $x(computerScienceXpath).click();
+    public static void setDateOfBirth(LocalDate date){
+        dateOfBirtInput.click();
+        yearSelector.selectOptionByValue(String.valueOf(date.getYear()));
+        monthSelector.selectOptionByValue(String.valueOf(date.getMonthValue()-1));
+        daysInMonth.findBy(exactText(String.valueOf(date.getDayOfMonth()))).click();
     }
 
     public static void addSubjects(List<String> subjects) {
         for (String subject: subjects) {
-            RegistrationPage.addSubject(subject);
+            subjectsInput.setValue(subject.substring(0,3));
+            subjectsAutoCompleteMenu.$(byText(subject)).click();
         }
     }
     
     public static void checkHobbyCheckbox(Hobby hobby){
-        if (hobby == Hobby.Sports){
-            checkSportCheckbox();
-        }else if (hobby == Hobby.Music){
-            checkMusicCheckbox();
-        } else if (hobby == Hobby.Reading) {
-            checkReadingCheckbox();
-        } else {
-            logger.error("Unknown hobby was received: " + hobby.name());
-        }
+        hobbiesCheckboxes.get(hobby).click();
     }
 
     public static void checkHobbiesCheckboxes(List<Hobby> hobbies){
@@ -119,54 +101,41 @@ public class RegistrationPage {
     }
 
     public static void enterCurrentAddress(String address){
-        $x(currentAddressTextarea).setValue(address);
+        addressTextarea.setValue(address);
     }
 
     public static void attachFileToForm(String path){
-        $x(uploadLogoXpath).uploadFile(new File(path));
+        uploadInput.uploadFile(new File(path));
     }
 
     public static void selectState(String stateName){
-        $x(stateXpath).click();
-        String curStateXpath = getStateXpathByName(stateName);
-        $x(curStateXpath).click();
+        stateInput.click();
+        stateAutoCompleteMenu.$(byText(stateName)).click();
     }
 
     public static void selectCity(String cityName){
-        $x(cityXpath).click();
-        String curCityXpath = getCityXpathByName(cityName);
-        $x(curCityXpath).click();
+        cityInput.click();
+        cityAutoCompleteMenu.$(byText(cityName)).click();
     }
 
     public static void clickSubmitButton(){
-        $x(submitButtonXpath).click();
+        submitButton.click();
     }
 
-    private static void checkSportCheckbox(){
-        $x(sportsCheckboxXpath).click();
-    }
-
-    private static void checkMusicCheckbox(){
-        $x(musicCheckboxXpath).click();
-    }
-
-    private static void checkReadingCheckbox(){
-        $x(readingCheckboxXpath).click();
-    }
-
-    private static String getDaySelectXpathWithDayValue(int day){
-        return daySelectXpath.replace("{DAY_VALUE}", String.valueOf(day));
-    }
-
-    private static String getSubjectSelectXpathBySubjectName(String subjectName){
-        return subjectSelectXpath.replace("{SUBJECT_VALUE}", subjectName);
-    }
-
-    private static String getStateXpathByName(String stateName){
-        return stateItemXpath.replace("{STATE_VALUE}", stateName);
-    }
-
-    private static String getCityXpathByName(String cityName) {
-        return cityItemXpath.replace("{CITY_VALUE}", cityName);
+    public static void registerStudent(Student student) {
+        openPageWithForm();
+        enterFirstName(student.firstName);
+        enterLastName(student.lastName);
+        enterEmail(student.email);
+        setGender(student.gender);
+        enterPhoneNumber(student.phoneNumber);
+        setDateOfBirth(student.dateOfBirth);
+        addSubjects(student.subjects);
+        checkHobbiesCheckboxes(student.hobbies);
+        attachFileToForm(student.pathToLogo);
+        enterCurrentAddress(student.address);
+        selectState(student.state);
+        selectCity(student.city);
+        clickSubmitButton();
     }
 }

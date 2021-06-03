@@ -7,5 +7,6 @@ public class TestBase {
     @BeforeAll
     public static void setup() {
         Configuration.startMaximized = true;
+        Configuration.baseUrl = "https://demoqa.com";
     }
 }

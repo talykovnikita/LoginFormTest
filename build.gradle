@@ -50,3 +50,9 @@ tasks.withType(Test) {
         }
     }
 }
+
+task fake_test(type: Test) {
+    useJUnitPlatform {
+        includeTags 'fake'
+    }
+}

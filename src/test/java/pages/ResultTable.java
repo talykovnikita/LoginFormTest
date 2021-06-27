@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import io.qameta.allure.Step;
 import com.codeborne.selenide.SelenideElement;
 import hobby.Hobby;
 import gender.Gender;
@@ -41,52 +42,63 @@ public class ResultTable {
         isCorrectCityAndStatePresent(student.city, student.state);
     }
 
-    private static void isResultTableOpened(){
+    @Step("Check if table with result is opened")
+    private static void isResultTableOpened() {
         header.shouldHave(text("Thanks for submitting the form"));
     }
 
+    @Step("Check if name is correct: {name}")
     private static void isCorrectStudentNamePresent(String name) {
         nameCell.shouldHave(text(name));
     }
 
+    @Step("Check if email is correct: {email}")
     private static void isCorrectStudentEmailPresent(String email) {
         emailCell.shouldHave(text(email));
     }
 
+    @Step("Check if gender is correct: {gender.name}")
     private static void isCorrectGenderPresent(Gender gender) {
         genderCell.shouldHave(text(gender.name()));
     }
 
+    @Step("Check if phone is correct: {phone}")
     private static void isCorrectStudentMobilePresent(String phone) {
         mobileCell.shouldHave(text(phone));
     }
 
+    @Step("Check if date of birth is correct: {date}")
     private static void isCorrectDateOfBirthPresent(LocalDate date) {
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.US);
         String convertedDate = date.format(outputFormatter);
         dateOfBirthCell.shouldHave(text(convertedDate));
     }
 
+    @Step("Check if subjects are correct: {subjects}")
     private static void isCorrectSubjectsPresent(List<String> subjects) {
         for (String subject : subjects) {
             subjectsCell.shouldHave(text(subject));
         }
     }
 
+    @Step("Check if hobbies are correct: {hobbies}")
     private static void isCorrectHobbiesPresent(List<Hobby> hobbies) {
         for (Hobby hobby : hobbies) {
             hobbiesCell.shouldHave(text(hobby.name()));
         }
     }
 
+    @Step("Check if picture is loaded: {path}")
     private static void isCorrectPicturePresent(String path) {
         pictureCell.shouldHave(text(path.split("/")[path.split("/").length - 1]));
     }
 
+    @Step("Check if address is correct: {address}")
     private static void isCorrectAddressPresent(String address) {
         addressCell.shouldHave(text(address));
     }
 
+    @Step("Check if city and state are correct: City: {city}, State: {state}")
     private static void isCorrectCityAndStatePresent(String city, String state) {
         cityAndStateCell.shouldHave(text(state + ' ' + city));
     }

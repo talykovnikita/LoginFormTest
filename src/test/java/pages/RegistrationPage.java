@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -52,30 +53,37 @@ public class RegistrationPage {
     private static final SelenideElement cityAutoCompleteMenu = $(".css-26l3qy-menu");
     private static final SelenideElement submitButton = $("#submit");
 
+    @Step("Open page with form")
     public static void openPageWithForm(){
         open(Configuration.baseUrl + "/automation-practice-form");
     }
 
+    @Step("Enter {firstName} as first name")
     public static void enterFirstName(String firstName){
         firstNameInput.setValue(firstName);
     }
 
+    @Step("Enter {lastName} as last name")
     public static void enterLastName(String lastName){
         lastNameInput.setValue(lastName);
     }
 
+    @Step("Enter {email} as email")
     public static void enterEmail(String email){
         emailInput.setValue(email);
     }
 
+    @Step("Chose '{gender.name}' gender")
     public static void setGender(Gender gender){
         genderCheckboxes.get(gender).click();
     }
 
+    @Step("Enter {phoneNumber} as phone number")
     public static void enterPhoneNumber(String phoneNumber){
         phoneInput.setValue(phoneNumber);
     }
 
+    @Step("Set {date} as date of birth")
     public static void setDateOfBirth(LocalDate date){
         dateOfBirtInput.click();
         yearSelector.selectOptionByValue(String.valueOf(date.getYear()));
@@ -83,6 +91,7 @@ public class RegistrationPage {
         daysInMonth.findBy(exactText(String.valueOf(date.getDayOfMonth()))).click();
     }
 
+    @Step("Select subjects: {subjects}")
     public static void addSubjects(List<String> subjects) {
         for (String subject: subjects) {
             subjectsInput.setValue(subject.substring(0,3));
@@ -90,30 +99,36 @@ public class RegistrationPage {
         }
     }
 
+    @Step("Select hobbies: {hobbies}")
     public static void checkHobbiesCheckboxes(List<Hobby> hobbies){
         for (Hobby hobby:hobbies) {
-            hobbiesCheckboxes.get(hobby).click();;
+            hobbiesCheckboxes.get(hobby).click();
         }
     }
 
+    @Step("Enter address: {address}")
     public static void enterCurrentAddress(String address){
         addressTextarea.setValue(address);
     }
 
+    @Step("Attach file with name: {path}")
     public static void attachFileToForm(String path){
         uploadInput.uploadFile(new File(path));
     }
 
+    @Step("Select state name: {stateName}")
     public static void selectState(String stateName){
         stateInput.click();
         stateAutoCompleteMenu.$(byText(stateName)).click();
     }
 
+    @Step("Select city name: {cityName}")
     public static void selectCity(String cityName){
         cityInput.click();
         cityAutoCompleteMenu.$(byText(cityName)).click();
     }
 
+    @Step("Click submit button")
     public static void clickSubmitButton(){
         submitButton.click();
     }

@@ -25,8 +25,8 @@ public class RegistrationFormTests extends TestBase {
                 Arrays.asList(Hobby.Sports, Hobby.Music),
                 "Student address 123 123",
                 "src/test/resources/logo.png",
-                "Haryana",
-                "Panipat"
+                "NCR",
+                "Delhi"
         );
 
         RegistrationPage.registerStudent(student);
@@ -47,8 +47,8 @@ public class RegistrationFormTests extends TestBase {
                 Arrays.asList(Hobby.Sports, Hobby.Music),
                 testDataProvider.address().fullAddress(),
                 "src/test/resources/logo.png",
-                "Haryana",
-                "Panipat"
+                "NCR",
+                "Delhi"
         );
 
         RegistrationPage.registerStudent(student);
